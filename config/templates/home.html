@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Welcome, {{ player.display_name }} ({{ player.username}})</h1>
+    <form method="POST" action="{% url "logout" %}">{% csrf_token %}<button type="submit">Log Out</button></form>
+
+    <h2><a href="#">Enter your latest games here!</a></h2>
+
+    <h2>Your Last 5 Games:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Your Hero</th>
+                <th>Result</th>
+                <th>K/D/A</th>
+                <th>Date</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in last_5_games %}
+                <tr>
+                    <td>{{ game.hero }}</td>
+                    <td>{{ game.result }}</td>
+                    <td>{{ game.kills }}/{{ game.deaths }}/{{ game.assists }}</td>
+                    <td>{{ game.date }}</td>
+                    <td>{{ game.duration }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">No games yet!</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Your Top 5 Favorite Heroes:</h2>
+    <ol>
+        {% for player_hero in player_top_5_heroes %}
+            <li>{{ player_hero.hero }} ({{ player_hero.winrate }}% over {{ player_hero.num_games }} games)</li>
+        {% empty %}
+            <li>No favorite heroes yet!</li>
+        {% endfor %}
+    </ol>
+
+    <h2>Top 5 Global Heroes:</h2>
+    <ol>
+        {% for hero in top_5_heroes %}
+            <li>{{ hero }} ({{ hero.winrate }}% over {{ hero.num_games }} games)</li>
+        {% empty %}
+            <li>No heroes yet!</li>
+        {% endfor %}
+    </ol>
+{% endblock %}
