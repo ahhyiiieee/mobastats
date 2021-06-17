@@ -8,6 +8,8 @@ class Player(AbstractUser):
 
 class Hero(models.Model):
 	name = models.CharField(max_length=30)
+	def __str__(self):
+         return self.name 
 	winrate = models.DecimalField(max_digits=3,decimal_places=1)
 	num_games = models.IntegerField()
 
