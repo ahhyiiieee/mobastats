@@ -22,9 +22,11 @@ class PlayerHero(models.Model):
 	
 
 class Game(models.Model):
+	GAME_RESULT=[(1,'Win'),(2,'Loss'),(3,'Invalid')]
+
 	player = models.ForeignKey(Player, on_delete=models.CASCADE,null=True)
 	hero = models.ForeignKey(PlayerHero, on_delete=models.CASCADE,null=True)
-	result = models.IntegerField()
+	result = models.CharField(max_length=200, null=True, choices=GAME_RESULT)
 	kills = models.IntegerField()
 	deaths = models.IntegerField()
 	assists = models.IntegerField()
