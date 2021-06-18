@@ -7,7 +7,7 @@ class Player(AbstractUser):
 
 
 class Hero(models.Model):
-	name = models.CharField(max_length=30)
+	name = models.CharField(max_length=30,null=True)
 	def __str__(self):
          return self.name 
 	winrate = models.DecimalField(max_digits=3,decimal_places=1)
@@ -15,18 +15,18 @@ class Hero(models.Model):
 
 
 class PlayerHero(models.Model):
-	player = models.ForeignKey(Player, on_delete=models.CASCADE)
+	player = models.ForeignKey(Player, on_delete=models.CASCADE,null=True)
 	hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
 	winrate = models.DecimalField(max_digits=3,decimal_places=1)
 	num_games =  models.IntegerField()
 	
 
 class Game(models.Model):
-	player = models.ForeignKey(Player, on_delete=models.CASCADE)
-	hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+	player = models.ForeignKey(Player, on_delete=models.CASCADE,null=True)
+	hero = models.ForeignKey(PlayerHero, on_delete=models.CASCADE,null=True)
 	result = models.IntegerField()
 	kills = models.IntegerField()
 	deaths = models.IntegerField()
 	assists = models.IntegerField()
-	date = models.DateTimeField()
+	date = models.DateTimeField(auto_now_add=True,null=True)
 	duration = models.TimeField()
