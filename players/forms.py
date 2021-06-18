@@ -3,7 +3,7 @@ from django.forms.fields import DateTimeField
 
 #creating a form for recording games
 #result choices
-GAME_RESULT=[(1,'Win'),(2,'Loss'),(3,'Invalid')]
+GAME_RESULT=[(1,'Win'), (2,'Loss'), (3,'Invalid')]
 
 class LatestGameForm(forms.Form):
     hero = forms.CharField()
