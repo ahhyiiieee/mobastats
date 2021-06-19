@@ -5,8 +5,8 @@ from players import models as players_models
 
 @login_required
 def home(request):
-    last_5_games = players_models.Game.objects.all().order_by('-date')[:5]
-    player_top_5_heroes = players_models.PlayerHero.objects.all().order_by('-num_games')[:5]
+    last_5_games = players_models.Game.objects.all().filter(player=request.user).order_by('-date')[:5]
+    player_top_5_heroes = players_models.PlayerHero.objects.all().filter(player=request.user).order_by('-winrate')[:5]
     #top_5_heroes =
 
     context = {
