@@ -6,7 +6,7 @@
     <h1>Welcome, {{ player.display_name }} ({{ player.username}})</h1>
     <form method="POST" action="{% url "logout" %}">{% csrf_token %}<button type="submit">Log Out</button></form>
 
-    <h2><a href="{% url 'latest_game' %}">Enter your latest games here!</a></h2>
+    <h2><a href="{% url 'latest_game_form' %}">Enter your latest games here!</a></h2>
 
     <h2>Your Last 5 Games:</h2>
     <table>
@@ -23,7 +23,7 @@
             {% for game in last_5_games %}
                 <tr>
                     <td>{{ game.hero }}</td>
-                    <td>{{ game.result }}</td>
+                    <td>{{ game.result}}</td>
                     <td>{{ game.kills }}/{{ game.deaths }}/{{ game.assists }}</td>
                     <td>{{ game.date }}</td>
                     <td>{{ game.duration }}</td>
