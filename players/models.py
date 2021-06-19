@@ -7,28 +7,37 @@ class Player(AbstractUser):
 
 
 class Hero(models.Model):
-	name = models.CharField(max_length=30,null=True)
-	def __str__(self):
-         return self.name 
-	winrate = models.DecimalField(max_digits=3,decimal_places=1)
-	num_games = models.IntegerField()
+    name = models.CharField(max_length=30, null=True)
+    winrate = models.DecimalField(max_digits=3, decimal_places=1)
+    num_games = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
 
 class PlayerHero(models.Model):
-	player = models.ForeignKey(Player, on_delete=models.CASCADE,null=True)
-	hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
-	winrate = models.DecimalField(max_digits=3,decimal_places=1)
-	num_games =  models.IntegerField()
-	
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, null=True)
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    winrate = models.DecimalField(max_digits=3, decimal_places=1)
+    num_games = models.IntegerField()
+
 
 class Game(models.Model):
-	GAME_RESULT=[(1,'Win'),(2,'Loss'),(3,'Invalid')]
+    WIN = 'Win'
+    LOSS = 'Loss'
+    INVALID = 'Invalid'
 
-	player = models.ForeignKey(Player, on_delete=models.CASCADE,null=True)
-	hero = models.ForeignKey(PlayerHero, on_delete=models.CASCADE,null=True)
-	result = models.CharField(max_length=200, null=True, choices=GAME_RESULT)
-	kills = models.IntegerField()
-	deaths = models.IntegerField()
-	assists = models.IntegerField()
-	date = models.DateTimeField(auto_now_add=True,null=True)
-	duration = models.TimeField()
+    RESULT_TYPES = [
+        (1, WIN),
+        (2, LOSS),
+        (3, INVALID),
+    ]
+
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    result = models.PositiveSmallIntegerField(choices=RESULT_TYPES)
+    kills = models.IntegerField()
+    deaths = models.IntegerField()
+    assists = models.IntegerField()
+    date = models.DateTimeField()
+    duration = models.TimeField()
