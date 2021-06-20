@@ -23,7 +23,7 @@
             {% for game in last_5_games %}
                 <tr>
                     <td>{{ game.hero }}</td>
-                    <td>{{ game.result}}</td>
+                    <td>{{ game.get_result_display}}</td>
                     <td>{{ game.kills }}/{{ game.deaths }}/{{ game.assists }}</td>
                     <td>{{ game.date }}</td>
                     <td>{{ game.duration }}</td>
