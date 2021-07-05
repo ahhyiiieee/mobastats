@@ -3,9 +3,10 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<form action = "" method = "POST">
+<form method = "POST">
     {% csrf_token %}
-    {{ form }}
+    {{ game_form }}
+    {{ game_player_form }}
     <input type="submit" value="Save">
 </form>
 {% endblock %}
