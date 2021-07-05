@@ -7,9 +7,10 @@ from players import models as players_models
 def home(request):
     game = players_models.Game.objects.all()
     hero = players_models.Hero.objects.all()
-    last_5_games = game.filter(player=request.user).order_by('-date')[:5]
-    player_top_5_heroes = players_models.PlayerHero.objects.all().filter(player=request.user).order_by('-winrate')[:5]
-    top_5_heroes = hero.filter(num_games__gte=1).order_by('-winrate')[:5]
+    game_players = players_models.GamePlayer.objects.all()
+    last_5_games = game_players.filter(player=request.user).order_by('-game')[:5]
+    player_top_5_heroes = players_models.PlayerHero.objects.all().filter(player=request.user).order_by('-winrate', '-num_games', 'hero__name')[:5]
+    top_5_heroes = hero.filter(num_games__gte=1).order_by('-winrate', '-num_games', 'name')[:5]
 
     context = {
         'player': request.user,
