@@ -3,19 +3,33 @@ from django.utils import timezone
 from django.forms.fields import DateTimeField
 from django import forms
 
-from .models import Game
+from .models import GamePlayer, Game
 
 
 # creating a form for recording games
-class LatestGameForm(forms.ModelForm):
+class GamePlayerForm(forms.ModelForm):
     class Meta:
-        model = Game
+        model = GamePlayer
         fields = [
-            'hero',
+            'team',
             'result',
+            'player',
+            'hero',
             'kills',
             'deaths',
             'assists',
-            'date',
-            'duration'
         ]
+
+
+class GameForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = [
+            'date',
+            'duration',
+        ]
+        
+#make another form for game
+#then render the 2 forms together
+#1 Game form, 10 GamePlayer forms later task
+
