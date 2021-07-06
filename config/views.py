@@ -10,10 +10,10 @@ def home(request):
     game_players = players_models.GamePlayer.objects.all()
     last_5_games = game_players.filter(player=request.user).order_by('-game')[:5]
     
-    #Cannot resolve keyword 'gameplayer' into field next line
+    #Cannot resolve keyword 'gameplayer' into field 
     #last_5_games = game_players.filter(gameplayer__player=request.user).order_by('-game')[:5]
-    player_top_5_heroes = players_models.PlayerHero.objects.all().filter(player=request.user, num_games__gte=1, winrate__gte=1).order_by('-winrate', '-num_games', 'hero__name')[:5]
-    top_5_heroes = hero.filter(num_games__gte=1, winrate__gte=1).order_by('-winrate', '-num_games', 'name')[:5]
+    player_top_5_heroes = players_models.PlayerHero.objects.all().filter(player=request.user, num_games__gte=1).order_by('-winrate', '-num_games', 'hero__name')[:5]
+    top_5_heroes = hero.filter(num_games__gte=1).order_by('-winrate', '-num_games', 'name')[:5]
 
     context = {
         'player': request.user,
