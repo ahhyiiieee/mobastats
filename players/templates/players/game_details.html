@@ -14,10 +14,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for game in all_games %}
+            {% for data in all_games %}
                 <tr>
-                    <td>{{ game.player }}</td>
-                    <td> Wins :{{ all_games }} Winrate :{{ game.winrate}}</td>
+                    <td>{{ data.player }}</td>
+                    <td> Wins :{{ data.total_wins }} Winrate :{{ data.winrate}}</td>
                 </tr>
             {% empty %}
                 <tr><td colspan="6">No game details yet!</td></tr>
