@@ -37,8 +37,8 @@ def latest_game_form(request):
         return render(request, 'players/latest_game_form.html', context)
 
 
-def game_details(request):
-    game_data = GamePlayer.objects.all()
+def game_details(request, pk):
+    game_data = Game.objects.get(pk=pk)
 
     context = {
         'player': request.user,
@@ -48,13 +48,13 @@ def game_details(request):
     return render(request, 'players/game_details.html', context)
 
 
-def player_details(request):
-    player_data = PlayerHero.objects.all()
-    player_game_data = GamePlayer.objects.all()
+def player_details(request, pk):
+    player_data = Player.objects.get(pk=pk)
+    player_game_data = Game.objects.get(pk=pk)
 
     context = {
         'player': request.user,
-        'player_data': player_data,
         'player_game_data': player_game_data,
+        'player_data': player_data,
         }
     return render(request, 'players/player_details.html', context)
