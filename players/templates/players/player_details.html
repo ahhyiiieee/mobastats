@@ -5,31 +5,31 @@
 {% block content %}
     <h1>Welcome, {{ player.display_name }} ({{ player.username}})</h1>
     <form method="POST" action="{% url "logout" %}">{% csrf_token %}<button type="submit">Log Out</button></form>
-    <h2>Players Details</h2>
+    <h2>Player's Hero Details</h2>
     <table>
         <thead>
             <tr>
-                <th>Player</th>
                 <th>Hero</th>
-                <th>Result</th>
-                <th>K/D/A</th>
-                <th>Date</th>
-                <th>Duration</th>
+                <th>Winrate</th>
             </tr>
         </thead>
         <tbody>
-            {% for game in all_games %}
+            {% for data in player_data %}
                 <tr>
-                    <td>{{ game.player }}</td>
-                    <td>{{ game.hero }}</td>
-                    <td>{{ game.get_result_display}}</td>
-                    <td>{{ game.kills }}/{{ game.deaths }}/{{ game.assists }}</td>
-                    <td>{{ game.date }}</td>
-                    <td>{{ game.duration }}</td>
+                    <td>{{ data.hero }}</td>
+                    <td>{{ data.winrate }}</td>
                 </tr>
             {% empty %}
-                <tr><td colspan="6">No game details yet!</td></tr>
+                <tr><td colspan="6">No hero stats yet!</td></tr>
             {% endfor %}
         </tbody>
     </table>
+    <h2>Player Games</h2>
+    <ol>
+        {% for game in player_game_data %}
+            <li>{{ game.game.date }} - {{ game.game.duration }} - {{ game.get_team_display }} - {{ game.get_result_display }} </li>
+        {% empty %}
+            <li>No games details yet!</li>
+        {% endfor %}
+    </ol>
 {% endblock %}
