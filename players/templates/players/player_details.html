@@ -10,13 +10,15 @@
         <thead>
             <tr>
                 <th>Hero</th>
+                <th>Number of games</th>
                 <th>Winrate</th>
             </tr>
         </thead>
         <tbody>
-            {% for data in player_data %}
+            {% for data in player_data.playerhero_set.all%}
                 <tr>
                     <td>{{ data.hero }}</td>
+                    <td>{{ data.num_games }}</td>
                     <td>{{ data.winrate }}</td>
                 </tr>
             {% empty %}
@@ -26,7 +28,7 @@
     </table>
     <h2>Player Games</h2>
     <ol>
-        {% for game in player_game_data %}
+        {% for game in player_game_data.gameplayer_set.all %}
             <li>{{ game.game.date }} - {{ game.game.duration }} - {{ game.get_team_display }} - {{ game.get_result_display }} </li>
         {% empty %}
             <li>No games details yet!</li>
