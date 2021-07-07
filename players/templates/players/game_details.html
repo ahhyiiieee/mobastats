@@ -15,9 +15,9 @@
             </tr>
         </thead>
         <tbody>
-            {% for data in game_data %}
+            {% for data in game_data.gameplayer_set.all %}
                 <tr>
-                    <td><a href="{% url 'player_details' %}">{{ data.player }}</a></td>
+                    <td><a href="{% url "player_details" data.player.pk %}">{{ data.player }}</td>
                     <td>{{ data.hero }}</td>
                     <td>{{ data.kills }}/{{ data.deaths }}/{{ data.assists }}</td>
                 </tr>
