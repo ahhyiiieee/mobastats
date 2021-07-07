@@ -5,9 +5,6 @@
 {% block content %}
     <h1>Welcome, {{ player.display_name }} ({{ player.username}})</h1>
     <form method="POST" action="{% url "logout" %}">{% csrf_token %}<button type="submit">Log Out</button></form>
-
-    <h2><a href="{% url 'game_details' %}">Game details</a></h2>
-    <h2><a href="{% url 'player_details' %}">Players Details</a></h2>
     <h2><a href="{% url 'latest_game_form' %}">Enter your latest games here!</a></h2>
 
     <h2>Your Last 5 Games:</h2>
