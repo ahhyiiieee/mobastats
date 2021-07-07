@@ -2,7 +2,7 @@ from django.http import request
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
-from .models import PlayerHero, Game, Hero, GamePlayer
+from .models import Player, PlayerHero, Game, Hero, GamePlayer
 from .forms import GamePlayerForm, GameForm
 
 # 1. Make sure to place your exception handler as close to the source of the exception as possible
@@ -17,7 +17,6 @@ def latest_game_form(request):
         if game_form.is_valid() and game_player_form.is_valid():
             game = game_form.save(commit=True)
             game_player = game_player_form.save(commit=False)
-            game_player.player = request.user
             game_player.game = game
             game_player.save()
 
@@ -37,18 +36,25 @@ def latest_game_form(request):
         }
         return render(request, 'players/latest_game_form.html', context)
 
+
 def game_details(request):
-    #game_players = PlayerHero.objects.all()
-    #all_games = game_players.filter(player=request.user)
-    
+    game_data = GamePlayer.objects.all()
+
     context = {
         'player': request.user,
-        #'all_games': all_games,
+        'game_data': game_data,
     }
 
     return render(request, 'players/game_details.html', context)
 
 
 def player_details(request):
-    context = {'player': request.user,}
+    player_data = PlayerHero.objects.all()
+    player_game_data = GamePlayer.objects.all()
+
+    context = {
+        'player': request.user,
+        'player_data': player_data,
+        'player_game_data': player_game_data,
+        }
     return render(request, 'players/player_details.html', context)
