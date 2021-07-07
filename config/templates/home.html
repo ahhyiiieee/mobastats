@@ -24,7 +24,7 @@
                     <td>{{ game.hero }}</td>
                     <td>{{ game.get_result_display}}</td>
                     <td>{{ game.kills }}/{{ game.deaths }}/{{ game.assists }}</td>
-                    <td><a href="{% url 'game_details' %}">{{ game.game.date}}</a></td>
+                    <td><a href="{% url "game_details" game.game.pk %}">{{ game.game.date }}</a></a></td>
                     <td>{{ game.game.duration }}</td>
                 </tr>
             {% empty %}
