@@ -50,7 +50,7 @@ def game_details(request, pk):
 
 def player_details(request, pk):
     player_data = Player.objects.get(pk=pk)
-    player_game_data = GamePlayer.objects.all().filter(player=pk)
+    player_game_data = GamePlayer.objects.all().filter(player=pk).order_by('-game')
 
     context = {
         'player': request.user,
