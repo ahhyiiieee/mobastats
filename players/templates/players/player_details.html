@@ -28,8 +28,8 @@
     </table>
     <h2>Player Games</h2>
     <ol>
-        {% for game in player_game_data.gameplayer_set.all %}
-            <li>{{ game.game.date }} - {{ game.game.duration }} - {{ game.get_team_display }} - {{ game.get_result_display }} </li>
+        {% for game in player_game_data %}
+            <li><a href="{% url "game_details" game.game.pk %}">{{ game.game.date }} - {{ game.game.duration }} - {{ game.get_team_display }} - {{ game.get_result_display }} </a></li>
         {% empty %}
             <li>No games details yet!</li>
         {% endfor %}
