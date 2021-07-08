@@ -94,8 +94,8 @@ class GamePlayer(models.Model):
     RED = 2
 
     TEAM_SIDE = [
-        (BLUE,'Blue Side'),
-        (RED,'Red Side'),
+        (BLUE,'Blue'),
+        (RED,'Red'),
     ]
 
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
