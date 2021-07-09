@@ -3,8 +3,6 @@
 {% block title %}Game Details{% endblock %}
 
 {% block content %}
-    <h1>Welcome, {{ player.display_name }} ({{ player.username}})</h1>
-    <form method="POST" action="{% url "logout" %}">{% csrf_token %}<button type="submit">Log Out</button></form>
     <h2>Game Overview</h2>
     <table>
         <thead>
@@ -15,11 +13,11 @@
             </tr>
         </thead>
         <tbody>
-            {% for data in game_data.gameplayer_set.all %}
+            {% for game in games.gameplayer_set.all %}
                 <tr>
-                    <td><a href="{% url "player_details" data.player.pk %}">{{ data.player }}</td>
-                    <td>{{ data.hero }}</td>
-                    <td>{{ data.kills }}/{{ data.deaths }}/{{ data.assists }}</td>
+                    <td><a href="{% url "player_details" game.player.pk %}">{{ game.player }}</td>
+                    <td>{{ game.hero }}</td>
+                    <td>{{ game.kills }}/{{ game.deaths }}/{{ game.assists }}</td>
                 </tr>
             {% empty %}
                 <tr>
