@@ -1,12 +1,51 @@
-{% extends "base.html" %}
-
 {% block title %}Home{% endblock %}
 
 {% block content %}
 <form method = "POST">
     {% csrf_token %}
     {{ game_form }}
-    {{ game_player_form }}
+    <div>
+        <h2>Win</h2>
+        <table>
+            <thead>
+                {% for form in winner_formset.forms%}
+                    {% if forloop.first %}
+                        {% for field in form %}
+                            <th>{{ field.label_tag }}</th>
+                        {% endfor %}
+                    {% endif %}
+            </thead>
+            <tbody>
+                    <tr>
+                        {% for field in form %}
+                            <td>{{ field }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h2>Lost</h2>
+        <table>
+            <thead>
+                {% for form in loser_formset.forms %}
+                    {% if forloop.first %}
+                        {% for field in form %}
+                            <th>{{ field.label_tag }}</th>
+                        {% endfor %}
+                    {% endif %}
+            </thead>
+            <tbody>
+                    <tr>
+                        {% for field in form %}
+                            <td>{{ field }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     <input type="submit" value="Save">
 </form>
 {% endblock %}
