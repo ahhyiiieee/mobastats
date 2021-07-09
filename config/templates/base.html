@@ -4,6 +4,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 </head>
 <body>
+    <h1>Welcome, {{ request.user.display_name }} ({{ request.user.username}})</h1>
+    <form method="POST" action="{% url "logout" %}">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+        <a href="{% url "home" %}">Home</a>
+    </form>
     {% block content %}
+    
     {% endblock %}
 </body>
