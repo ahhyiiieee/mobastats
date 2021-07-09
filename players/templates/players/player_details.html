@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Game Details{% endblock %}
+{% block title %}Player Details{% endblock %}
 
 {% block content %}
-    <h1>Welcome, {{ player.display_name }} ({{ player.username}})</h1>
-    <form method="POST" action="{% url "logout" %}">{% csrf_token %}<button type="submit">Log Out</button></form>
     <h2>Player's Hero Details</h2>
     <table>
         <thead>
@@ -15,23 +13,42 @@
             </tr>
         </thead>
         <tbody>
-            {% for data in player_data.playerhero_set.all%}
+            {% for player in players.playerhero_set.all%}
                 <tr>
-                    <td>{{ data.hero }}</td>
-                    <td>{{ data.num_games }}</td>
-                    <td>{{ data.winrate }}</td>
+                    <td>{{ player.hero }}</td>
+                    <td>{{ player.num_games }}</td>
+                    <td>{{ player.winrate }}%</td>
                 </tr>
             {% empty %}
                 <tr><td colspan="6">No hero stats yet!</td></tr>
             {% endfor %}
         </tbody>
     </table>
-    <h2>Player Games</h2>
-    <ol>
-        {% for game in player_game_data %}
-            <li><a href="{% url "game_details" game.game.pk %}">{{ game.game.date }} - {{ game.game.duration }} - {{ game.get_team_display }} - {{ game.get_result_display }} </a></li>
-        {% empty %}
-            <li>No games details yet!</li>
-        {% endfor %}
-    </ol>
+    <h2>Player's Games</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Your Hero</th>
+                <th>Result</th>
+                <th>K/D/A</th>
+                <th>Date</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player_game in player_games %}
+                <tr>
+                    <td>{{ player_game.get_team_display }}</td>
+                    <td>{{ player_game.hero }}</td>
+                    <td>{{ player_game.get_result_display}}</td>
+                    <td>{{ player_game.kills }}/{{ player_game.deaths }}/{{ player_game.assists }}</td>
+                    <td><a href="{% url "game_details" player_game.game.pk %}">{{ player_game.game.date }}</a></a></td>
+                    <td>{{ player_game.game.duration }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">No games yet!</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
