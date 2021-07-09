@@ -1,6 +1,7 @@
 from django.http import request
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.forms import formset_factory
 
 from .models import Player, PlayerHero, Game, Hero, GamePlayer
 from .forms import GamePlayerForm, GameForm
@@ -13,6 +14,7 @@ def latest_game_form(request):
     if request.method == 'POST':
         game_form = GameForm(request.POST)
         game_player_form = GamePlayerForm(request.POST)
+        w_formset = WinnerFormSet(request.POST)
 
         if game_form.is_valid() and game_player_form.is_valid():
             game = game_form.save(commit=True)
@@ -30,31 +32,36 @@ def latest_game_form(request):
 
         game_form = GameForm(initial={'date': timezone.now()})
         game_player_form = GamePlayerForm()
+
+        GamePlayerFormSet = formset_factory(GamePlayerForm, extra=5, max_num=5, min_num=None)
+        winner_formset = GamePlayerFormSet()
+        loser_formset = GamePlayerFormSet()
+
         context = {
             'game_form': game_form,
-            'game_player_form': game_player_form,
+            #'game_player_form': game_player_form,
+            'winner_formset': winner_formset,
+            'loser_formset': loser_formset,
         }
         return render(request, 'players/latest_game_form.html', context)
 
 
 def game_details(request, pk):
-    game_data = Game.objects.get(pk=pk)
+    games = Game.objects.get(pk=pk)
 
     context = {
-        'player': request.user,
-        'game_data': game_data,
+        'games': games,
     }
 
     return render(request, 'players/game_details.html', context)
 
 
 def player_details(request, pk):
-    player_data = Player.objects.get(pk=pk)
-    player_game_data = GamePlayer.objects.all().filter(player=pk).order_by('-game')
+    players = Player.objects.get(pk=pk)
+    player_games = players.gameplayer_set.order_by('-game__date')
 
     context = {
-        'player': request.user,
-        'player_game_data': player_game_data,
-        'player_data': player_data,
+        'players': players,
+        'player_games': player_games,
         }
     return render(request, 'players/player_details.html', context)
