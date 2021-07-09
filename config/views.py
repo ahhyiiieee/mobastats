@@ -8,7 +8,7 @@ def home(request):
     game = players_models.Game.objects.all()
     hero = players_models.Hero.objects.all()
     game_players = players_models.GamePlayer.objects.all()
-    last_5_games = game_players.filter(player=request.user).order_by('-game')[:5]
+    last_5_games = game_players.filter(player=request.user).order_by('-game__date')[:5]
     
     #Cannot resolve keyword 'gameplayer' into field 
     #last_5_games = game_players.filter(gameplayer__player=request.user).order_by('-game')[:5]
