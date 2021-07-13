@@ -24,6 +24,7 @@ from .models import GamePlayer, Game
 GamePlayerFormSet = modelformset_factory(GamePlayer, extra=5,
     fields = (
         'team',
+        'result',
         'player',
         'hero',
         'kills',
