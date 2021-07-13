@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, modelformset_factory
 from django.utils import timezone
 from django.forms.fields import DateTimeField
 from django import forms
@@ -7,6 +7,32 @@ from .models import GamePlayer, Game
 
 
 # creating a form for recording games
+
+'''class GamePlayerForm(forms.ModelForm):
+    class Meta:
+        model = GamePlayer
+        fields = [
+            'team',
+            'result',
+            'player',
+            'hero',
+            'kills',
+            'deaths',
+            'assists',
+        ]
+'''
+GamePlayerFormSet = modelformset_factory(GamePlayer, extra=5,
+    fields = (
+        'team',
+        'player',
+        'hero',
+        'kills',
+        'deaths',
+        'assists',
+    ),
+)
+ 
+
 class GameForm(forms.ModelForm):
     class Meta:
         model = Game
@@ -14,9 +40,9 @@ class GameForm(forms.ModelForm):
             'date',
             'duration',
         ]
-        
 
-class GamePlayerForm(forms.Form):
+
+'''class GamePlayerForm(forms.Form):
     WIN = 1
     LOST = 2
     INVALID = 3
@@ -42,7 +68,7 @@ class GamePlayerForm(forms.Form):
     kills = forms.IntegerField()
     deaths = forms.IntegerField()
     assists = forms.IntegerField()
-
+'''
 #make another form for game
 #then render the 2 forms together
 #1 Game form, 10 GamePlayer forms later task
