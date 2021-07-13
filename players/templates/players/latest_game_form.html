@@ -1,52 +1,73 @@
-{% extends "base.html" %}
-{% block title %}Home{% endblock %}
-
+{% block title %}<title>Enter Game</title>{% endblock %}
+<h1>Welcome, {{ request.user.display_name }} ({{ request.user.username}})</h1>
+    <form method="POST" action="{% url "logout" %}">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+        <a href="{% url "home" %}">Home</a>
+    </form>
 {% block content %}
 <form method = "POST">
     {% csrf_token %}
-    {{ game_form }}
     <div>
-        <h2>Win</h2>
-        <table>
-            <thead>
-                {% for form in winner_formset.forms%}
-                    {% if forloop.first %}
-                        {% for field in form %}
-                            <th>{{ field.label_tag }}</th>
-                        {% endfor %}
-                    {% endif %}
-            </thead>
-            <tbody>
-                    <tr>
-                        {% for field in form %}
-                            <td>{{ field }}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {{ game_form }}
     </div>
     <div>
-        <h2>Lost</h2>
+        <br>
         <table>
             <thead>
-                {% for form in loser_formset.forms %}
-                    {% if forloop.first %}
-                        {% for field in form %}
-                            <th>{{ field.label_tag }}</th>
-                        {% endfor %}
-                    {% endif %}
+              <tr>
+                <th align=left><h2>Winning Team</h2></th>
+                <th align=left><h2>Losing Team</h2></th>
+              </tr>
             </thead>
             <tbody>
-                    <tr>
-                        {% for field in form %}
-                            <td>{{ field }}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
+              <tr>
+                <td>
+                    <table>
+                        <thead>
+                            {{ winner_formset.management_form }}
+                                {% for form in winner_formset %}
+                                    {% if forloop.first %}
+                                        {% for field in form.visible_fields %}
+                                            <th>{{ field.label_tag }}</th>
+                                        {% endfor %}
+                                    {% endif %}
+                        </thead>
+                            <tbody> 
+                                <tr>
+                                    {% for field in form.visible_fields %}
+                                        <td>{{ field }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <thead>
+                            {{ loser_formset.management_form }}
+                                {% for form in loser_formset %}
+                                    {% if forloop.first %}
+                                        {% for field in form.visible_fields %}
+                                            <th>{{ field.label_tag }}</th>
+                                        {% endfor %}
+                                    {% endif %}
+                        </thead>
+                            <tbody> 
+                                <tr>
+                                    {% for field in form.visible_fields %}
+                                        <td>{{ field }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                    </table>
+                </td>
+              </tr>
             </tbody>
-        </table>
-    </div>
+          </table>
+          <br>
     <input type="submit" value="Save">
 </form>
 {% endblock %}
