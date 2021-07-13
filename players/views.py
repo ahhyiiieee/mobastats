@@ -22,19 +22,18 @@ def latest_game_form(request):
             for instance in instances:
                 instance.game = game
                 instance.save()
-                instance.result = GamePlayer.WIN
                 PlayerHero.update_stats(instance.player, instance.hero)
                 Hero.update_stats(instance.hero)
                 return redirect('home')
-                    
+        else:
+            print(game_form.errors, winner_formset.errors)
+                        
     game_form = GameForm(initial={'date': timezone.now()})
-    winner_formset = GamePlayerFormSet(queryset=GamePlayer.objects.none())
-    loser_formset = GamePlayerFormSet(queryset=GamePlayer.objects.none())              
+    winner_formset = GamePlayerFormSet(queryset=GamePlayer.objects.none(),)            
     
     context = {
         'game_form': game_form,
         'winner_formset': winner_formset,
-        'loser_formset': loser_formset,
         }
         
     return render(request, 'players/latest_game_form.html', context)
