@@ -4,9 +4,12 @@
 
 {% block content %}
     <h2>Game Overview</h2>
+
     <table>
         <thead>
             <tr>
+                <td>Result</td>
+                <th>Team</th>
                 <th>Player</th>
                 <th>Hero</th>
                 <th>K/D/A</th>
@@ -15,6 +18,8 @@
         <tbody>
             {% for game in games.gameplayer_set.all %}
                 <tr>
+                    <td>{{ game.get_result_display }}</td>
+                    <td>{{ game.get_team_display }}</td>
                     <td><a href="{% url "player_details" game.player.pk %}">{{ game.player }}</td>
                     <td>{{ game.hero }}</td>
                     <td>{{ game.kills }}/{{ game.deaths }}/{{ game.assists }}</td>
