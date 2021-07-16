@@ -1,7 +1,11 @@
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.forms import modelformset_factory
+from rest_framework.response import Response
+from rest_framework import serializers, viewsets
+from rest_framework.decorators import action
 
+from .serializers import GamePlayerSerializer, HeroSerializer, PlayerHeroSerializer
 from .models import Player, PlayerHero, Game, Hero, GamePlayer
 from .forms import GameForm, GamePlayerForm
 
@@ -10,7 +14,44 @@ from .forms import GameForm, GamePlayerForm
 # See if you can extract distinct pieces of logic into their own functions
 
 
-# Create your views here.
+# class TestView(APIView):
+#     def get(self, request):
+
+#         return Response('ey')
+
+
+class DashboardViewSet(viewsets.ViewSet):
+    def get_user(self):
+        return self.request.user
+
+    @action(detail=False, url_path='top-5-heroes')
+    def top_5_heroes(self, request):
+        queryset = PlayerHero.objects.filter(player=request.user, num_games__gte=1).order_by(
+            '-winrate', '-num_games', 'hero__name'
+        )[:5]
+        serializer = PlayerHeroSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, url_path='top-5-global-heroes')
+    def top_5_global_heroes(self, request):
+        queryset = Hero.objects.filter(num_games__gte=1).order_by('-winrate', '-num_games', 'name')[:5]
+        serializer = HeroSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, url_path='last-5-games')
+    def last_5_games(self, request):
+        queryset = GamePlayer.objects.filter(player=request.user).order_by('-game__date')[:5]
+        serializer = GamePlayerSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class GamePlayerViewSet(viewsets.ModelViewSet):
+    queryset = GamePlayer.objects.all()
+    serializer_class = GamePlayerSerializer
+    filterset_fields = ['player']
+
+
+
 def latest_game_form(request):
     game_form = GameForm(initial={'date': timezone.now()})
     GamePlayerFormSet = modelformset_factory(GamePlayer, form=GamePlayerForm, extra=5)
