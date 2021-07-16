@@ -1,5 +1,13 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
+
 from . import views
+
+
+router = DefaultRouter()
+router.register('dashboard', views.DashboardViewSet, basename='dashboard')
+router.register('games', views.GamePlayerViewSet)
+
 
 urlpatterns = [
     path('latest_game_form/', views.latest_game_form, name='latest_game_form'),
