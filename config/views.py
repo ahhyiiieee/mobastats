@@ -1,6 +1,15 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 from players import models as players_models
+
+
+class TestView(APIView):
+    def get(self, request):
+
+        return Response('asd')
 
 
 @login_required
