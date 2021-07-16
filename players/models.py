@@ -48,7 +48,7 @@ class PlayerHero(models.Model):
     def update_stats(cls, player, hero):
         num_games_won = GamePlayer.objects.filter(
             player=player,
-            result=GamePlayer.WIN,  
+            result=GamePlayer.WIN,
             hero=hero,
         ).count()
         num_games_lost = GamePlayer.objects.filter(
@@ -94,8 +94,8 @@ class GamePlayer(models.Model):
     RED = 2
 
     TEAM_SIDE = [
-        (BLUE,'Blue'),
-        (RED,'Red'),
+        (BLUE, 'Blue'),
+        (RED, 'Red'),
     ]
 
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
@@ -106,18 +106,17 @@ class GamePlayer(models.Model):
     kills = models.IntegerField()
     deaths = models.IntegerField()
     assists = models.IntegerField()
-    
+
     def __str__(self):
         return f'{self.player} - {self.hero} - {self.team}'
-        
+
 # A game can involve 10 players, and they don't have to enter their own game if someone else entered it.
 
-'''
-1. Separate entry for all players: Hero, K/D/A.
-2. 2 groups of 5, winning side and losing side
 
-Break down the Game model into two models, 
-Game (containing date and duration) and 
-GamePlayer (foreign keys to Game and Player, and hero/result/kda). 
-The goal is to be able to enter one game that ties to multiple players.
-'''
+# 1. Separate entry for all players: Hero, K/D/A.
+# 2. 2 groups of 5, winning side and losing side
+
+# Break down the Game model into two models,
+# Game (containing date and duration) and
+# GamePlayer (foreign keys to Game and Player, and hero/result/kda).
+# The goal is to be able to enter one game that ties to multiple players.
