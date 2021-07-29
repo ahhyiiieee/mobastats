@@ -6,12 +6,6 @@ from rest_framework.response import Response
 from players import models as players_models
 
 
-class TestView(APIView):
-    def get(self, request):
-
-        return Response('asd')
-
-
 @login_required
 def home(request):
     game_players = players_models.GamePlayer.objects.all()
