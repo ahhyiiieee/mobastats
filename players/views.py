@@ -5,19 +5,13 @@ from rest_framework.response import Response
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 
-from .serializers import GamePlayerSerializer, HeroSerializer, PlayerHeroSerializer
+from .serializers import GamePlayerSerializer, GameSerializer, HeroSerializer, PlayerSerializer, PlayerHeroSerializer
 from .models import Player, PlayerHero, Game, Hero, GamePlayer
 from .forms import GameForm, GamePlayerForm
 
 # 1. Make sure to place your exception handler as close to the source of the exception as possible
 # 2. In general, don't write too long functions
 # See if you can extract distinct pieces of logic into their own functions
-
-
-# class TestView(APIView):
-#     def get(self, request):
-
-#         return Response('ey')
 
 
 class DashboardViewSet(viewsets.ViewSet):
@@ -32,8 +26,8 @@ class DashboardViewSet(viewsets.ViewSet):
         serializer = PlayerHeroSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    @action(detail=False, url_path='top-5-global-heroes')
-    def top_5_global_heroes(self, request):
+    @action(detail=False, url_path='top-5-heroes-global')
+    def top_5_heroes_global(self):
         queryset = Hero.objects.filter(num_games__gte=1).order_by('-winrate', '-num_games', 'name')[:5]
         serializer = HeroSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -50,6 +44,19 @@ class GamePlayerViewSet(viewsets.ModelViewSet):
     serializer_class = GamePlayerSerializer
     filterset_fields = ['player']
 
+
+class GameViewSet(viewsets.ModelViewSet):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+# class PlayerViewSet(viewsets.ModelViewSet):
+#     queryset = Player.objects.all()
+#     serializer_class = PlayerSerializer
+
+
+# class PlayerHeroViewSet(viewsets.ModelViewSet):
+#     queryset = PlayerHero.objects.all()
+#     serializer_class = PlayerHeroSerializer
 
 
 def latest_game_form(request):
