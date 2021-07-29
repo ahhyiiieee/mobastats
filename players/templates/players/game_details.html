@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for game in games.gameplayer_set.all %}
+            {% for game in games.game_players.all %}
                 <tr>
                     <td>{{ game.get_result_display }}</td>
                     <td>{{ game.get_team_display }}</td>
