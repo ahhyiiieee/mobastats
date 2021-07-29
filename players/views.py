@@ -2,8 +2,9 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.forms import modelformset_factory
 from rest_framework.response import Response
-from rest_framework import serializers, viewsets
+from rest_framework import viewsets
 from rest_framework.decorators import action
+import django_filters
 
 from .serializers import GamePlayerSerializer, GameSerializer, HeroSerializer, PlayerSerializer, PlayerHeroSerializer
 from .models import Player, PlayerHero, Game, Hero, GamePlayer
@@ -45,13 +46,23 @@ class GamePlayerViewSet(viewsets.ModelViewSet):
     filterset_fields = ['player']
 
 
+class GameFilter(django_filters.FilterSet):
+    player = django_filters.NumberFilter('game_players__player')
+
+    class Meta:
+        model = Game
+        fields = ['player']
+
+
 class GameViewSet(viewsets.ModelViewSet):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+    filter_class = GameFilter
 
-# class PlayerViewSet(viewsets.ModelViewSet):
-#     queryset = Player.objects.all()
-#     serializer_class = PlayerSerializer
+
+class PlayerViewSet(viewsets.ModelViewSet):
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer
 
 
 # class PlayerHeroViewSet(viewsets.ModelViewSet):
@@ -114,7 +125,7 @@ def game_details(request, pk):
 
 def player_details(request, pk):
     players = Player.objects.get(pk=pk)
-    player_games = players.gameplayer_set.order_by('-game__date')
+    player_games = players.game_players.order_by('-game__date')
 
     context = {
         'players': players,
