@@ -34,7 +34,7 @@ class GamePlayerSerializer(serializers.ModelSerializer):
 
 
 class GameSerializer(serializers.ModelSerializer):
-    game_players = GamePlayerSerializer(source='gameplayer_set', many=True, read_only=True)
+    game_players = GamePlayerSerializer('game_players', many=True, read_only=True)
 
     class Meta:
         model = Game
