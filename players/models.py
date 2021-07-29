@@ -36,8 +36,8 @@ class Hero(models.Model):
 
 
 class PlayerHero(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player_heroes')
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE, related_name='player_heroes')
     winrate = models.DecimalField(max_digits=4, decimal_places=1)
     num_games = models.IntegerField()
 
@@ -98,9 +98,9 @@ class GamePlayer(models.Model):
         (RED, 'Red'),
     ]
 
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='game_players')
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='game_players')
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE, related_name='game_players')
     result = models.PositiveSmallIntegerField(choices=RESULT_TYPES)
     team = models.PositiveSmallIntegerField(choices=TEAM_SIDE)
     kills = models.IntegerField()
