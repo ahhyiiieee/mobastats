@@ -6,7 +6,8 @@ from . import views
 
 router = DefaultRouter()
 router.register('dashboard', views.DashboardViewSet, basename='dashboard')
-router.register('games', views.GamePlayerViewSet)
+router.register('games', views.GameViewSet, basename='games')
+# router.register('players', views.PlayerHeroViewSet, basename='players')
 
 
 urlpatterns = [
