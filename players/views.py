@@ -40,12 +40,6 @@ class DashboardViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-class GamePlayerViewSet(viewsets.ModelViewSet):
-    queryset = GamePlayer.objects.all()
-    serializer_class = GamePlayerSerializer
-    filterset_fields = ['player']
-
-
 class GameFilter(django_filters.FilterSet):
     player = django_filters.NumberFilter('game_players__player')
 
@@ -63,6 +57,12 @@ class GameViewSet(viewsets.ModelViewSet):
 class PlayerViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
+
+    # @action(detail=False)
+    # def top_5_heroes(self, request, pk):
+    #     queryset = PlayerHero.objects.get(pk=pk)
+    #     serializer = PlayerHeroSerializer(queryset, many=True)
+    #     return Response(serializer.data)
 
 
 # class PlayerHeroViewSet(viewsets.ModelViewSet):
